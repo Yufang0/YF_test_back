@@ -2,7 +2,7 @@
 applyTo: "**/*.{java,kt}"
 ---
 
-# ERP Back‑End • Spring Boot 3.5.4 Coding Rules (Copilot)
+# ERP Back‑End • Spring Boot 3.5.4 Coding Rules
 
 > Follow every rule exactly. Do not suggest alternatives unless asked. Assume Java 21 + Maven 3.9.11 + Spring Boot 3.5.4.
 
