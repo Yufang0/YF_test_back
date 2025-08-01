@@ -20,6 +20,27 @@ applyTo: "**/*.{java,kt}"
 - JPA: `spring.jpa.hibernate.ddl-auto=validate` by default; avoid `create`/`update` in production.
 - Expose OpenAPI on actuator port: `springdoc.show-actuator=true` if management port differs.
 
+## 5. 開發流程建議
+### A. 模型與資料持久化
+- 使用 JPA + Hibernate（或 Spring Data JPA）定義 Entity / Repository，配合 Bean Validation（JSR‑303）進行資料驗證。
+- 善用 Spring Boot 的屬性 binding 自動載入 application.properties 文件設定。
+
+### B. REST 控制器層
+- 採用 `@RestController` + DTO 進行資料交換。
+- 使用 `@Validated`, `@NotNull`, `@Size` 等註解進行輸入驗證。
+
+### C. 錯誤處理與例外
+- 使用 `@ControllerAdvice` 處理全域例外，返回統一的錯誤格式。
+
+### D. 安全與權限控制
+- 使用 Spring Security，搭配 OAuth2 資訊或 Basic 認證（視需求），控制 API 存取。
+- 若使用 Spring Security OAuth2 client/server，確保 springdoc-openapi 適當忽略 `@AuthenticationPrincipal` 提供的 endpoint。
+
+### E. 測試
+- 編寫單元測試與整合測試，使用 Spring Boot 的測試 starter：`spring-boot-starter-test`。
+- 如需 Native Image 測試，參考官方 native‑image 測試文檔。
+
+
 ## 🏗️ Project Structure
 ### 核心業務層 (Core Business Layers)
 ```
@@ -96,6 +117,8 @@ com.systex.course/
 - Use JUnit 5 (`@SpringBootTest(webEnvironment = RANDOM_PORT)`).
 - Integrate Testcontainers for database integration tests.
 - Use Mockito/AssertJ; avoid PowerMock.
+- 編寫單元測試與整合測試，使用 Spring Boot 的測試 starter：`spring-boot-starter-test`。
+- 如需 Native Image 測試，參考官方 native‑image 測試文檔。
 
 ## 🚀 Deployment & Observability
 - Health/metrics via Spring Boot Actuator (`/actuator/health`, `/actuator/metrics`).
