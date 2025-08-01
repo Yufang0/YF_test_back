@@ -2,89 +2,173 @@
 applyTo: "**/*.java"
 ---
 
-# 🌱 Spring Boot 3.5.4 開發規範 for GitHub Copilot
+# 🌱 Spring Boot 3.5.4 Development Standards for GitHub Copilot
 
-## 🔧 基礎規則
+## 🚨 Important Restrictions
 
-- 使用 Java 21 或更新版本
-- 使用 Spring Boot 3.5.4 與 Jakarta EE (jakarta.\*) annotations
-- 使用 Lombok 簡化程式碼，例如 `@Data`, `@Builder`, `@RequiredArgsConstructor`
-- 使用 constructor-based dependency injection
-- 禁止使用 field injection
-- 禁止使用 `System.out.println` 進行輸出，應使用專門的日誌框架
+**Copilot can only generate the following file types:**
 
-### Virtual Threads
+- ✅ **Java files** (`.java`) - Including Entity, Controller, Service, Repository, DTO, Config, etc.
+- ✅ **README files** (`.md`) - For documenting project or package functionality
+- ❌ **Prohibited from generating** any other file types (such as XML, YAML, Properties, HTML, CSS, JavaScript, etc.)
 
-- 若要啟用虛擬執行緒，請在 `application.yml` 新增  
-  `spring.threads.virtual.enabled=true`。
+## 🔧 Basic Rules
 
-## 🛠️ 建置與部署
+- **Use Java language only** - Do not generate code in any other language
+- Use Java 21 or newer versions
+- Use Spring Boot 3.5.4 with Jakarta EE (jakarta.\*) annotations
+- Use Lombok to simplify code, e.g., `@Data`, `@Builder`, `@RequiredArgsConstructor`
+- Use constructor-based dependency injection
+- Prohibit field injection
+- Prohibit using `System.out.println` for output; use dedicated logging frameworks instead
+- **Do not create configuration files** - Only modify existing Maven and Spring Boot configuration files
 
-- 產生 OCI 映像：`mvn spring-boot:build-image`（Spring Boot Maven Plugin 內建 Buildpacks 支援）。
+## 🛠️ Build & Deployment
 
-## 📝 命名規範
+- Generate OCI images: `mvn spring-boot:build-image` (Spring Boot Maven Plugin with built-in Buildpacks support).
 
-- 使用 **PascalCase** 命名類別、介面和類型別名
-- 使用 **camelCase** 命名變數、函數和方法
-- 使用 **全大寫蛇形命名法(SNAKE_CASE)** 命名常數，例如：`MAX_RETRY_COUNT`
-- 避免使用匈牙利命名法（如 `strName`、`iCount`）
-- 方法名應以動詞開頭，例如：`getUserById`, `saveOrder`
-- Boolean 變數和方法應以 `is`, `has`, `can`, `should` 等開頭，例如：`isActive`, `hasPermission`
+## 📝 Naming Conventions
 
-## 🧩 程式碼格式化
+- Use **PascalCase** for class, interface, and type alias names
+- Use **camelCase** for variable, function, and method names
+- Use **UPPER_SNAKE_CASE** for constants, e.g., `MAX_RETRY_COUNT`
+- Avoid Hungarian notation (like `strName`, `iCount`)
+- Method names should start with verbs, e.g., `getUserById`, `saveOrder`
+- Boolean variables and methods should start with `is`, `has`, `can`, `should`, etc., e.g., `isActive`, `hasPermission`
 
-- 縮排使用 4 個空格（非 Tab 字符）
-- 行寬限制為 120 字符
-- 方法之間用一行空白分隔
-- 相關的程式碼應分組在一起，並使用空行分隔不同的邏輯區塊
-- 大括號應遵循 K&R 風格（左括號不換行，右括號獨立一行）
-- 每行代碼應僅包含一條語句
+## 🧩 Code Formatting
 
-## 🛡️ 異常處理
+- Indent with **4 spaces**, never tabs.
+- Max line width **120 chars**.
+- One blank line between methods.
+- Use blank lines to separate logical blocks.
+- Group related code together and use blank lines to separate different logical blocks
+- Braces should follow K&R style (opening brace on same line, closing brace on separate line)
+- Each line of code should contain only one statement
 
-- 捕獲具體的異常，而非籠統的 `Exception`
-- 不要捕獲異常後不處理或僅打印堆疊追蹤
-- 自定義異常類別應提供有意義的錯誤訊息和相關資訊
-- 避免在 catch 塊中使用 `e.printStackTrace()`，應使用日誌框架記錄異常
-- 業務邏輯異常應使用自定義異常類，並提供清晰的錯誤碼和訊息
+## 🛡️ Exception Handling
 
-## 📚 註解使用
+- Catch specific exceptions rather than generic `Exception`
+- Do not catch exceptions without handling them or only printing stack traces
+- Custom exception classes should provide meaningful error messages and relevant information
+- Avoid using `e.printStackTrace()` in catch blocks; use logging frameworks to record exceptions
+- Business logic exceptions should use custom exception classes with clear error codes and messages
+- Never swallow exceptions or print stack traces; always log via SLF4J.
 
-- 類別和公開方法必須有 JavaDoc 註解
-- 複雜的私有方法應有註解說明其用途和實現邏輯
-- JavaDoc 應包含參數說明 `@param`、返回值說明 `@return` 和拋出異常說明 `@throws`
-- 避免無意義的註解，如 `// 建構子` 或 `// getter/setter`
-- 使用 `@Deprecated` 標記已棄用的方法，並說明替代方案
+## 📚 Annotation Usage
 
-## 🔍 程式碼品質
+- Classes and public methods **must** have JavaDoc annotations
+- Complex private methods should have annotations explaining their purpose and implementation logic
+- JavaDoc should include parameter descriptions `@param`, return value descriptions `@return`, and exception descriptions `@throws`
+- Avoid meaningless annotations, such as `// Constructor` or `// getter/setter`
+- Use `@Deprecated` to mark deprecated methods and explain alternatives
 
-- 遵循 SOLID 原則
-- 遵循 DRY (Don't Repeat Yourself) 原則，避免代碼重複
-- 類別應保持單一職責（SRP）
-- 方法應盡可能短小，通常不超過 50 行
-- 避免過深的嵌套（不超過 3 層）
-- 優先使用不可變（immutable）物件
-- 避免魔法數字和字串，使用有意義的常數
-- 使用 Optional 代替返回 null
+## 🔍 Code Quality
 
-## 📊 日誌使用
+- Follow **SOLID** principles
+- Follow **DRY** (Don't Repeat Yourself) principle, avoid code duplication
+- Classes should maintain **single responsibility** (SRP)
+- Methods should be as short as possible, usually no more than 50 lines
+- Avoid excessive nesting (no more than 3 levels)
+- Prefer using immutable objects
+- Avoid magic numbers and strings, use meaningful constants
+- Use Optional instead of returning null
 
-- 每個 Class 都實作使用 SLF4J API 進行日誌記錄
-- 適當使用不同的日誌級別（ERROR, WARN, INFO, DEBUG, TRACE）
-- 日誌訊息應該提供足夠的上下文資訊
-- 敏感信息（密碼、身份證號等）不得記錄到日誌
-- 使用佔位符 `{}` 而非字串拼接，例如：`log.info("User {} logged in", username)`
-- 在 DEBUG 級別日誌使用前先檢查是否啟用，例如：`if (log.isDebugEnabled()) { ... }`
+## 📊 Logging Usage
 
-## 🧪 測試實踐 - 通用原則
+- Each class should use SLF4J API for logging
+- Use appropriate log levels (ERROR, WARN, INFO, DEBUG, TRACE)
+- Log messages should provide sufficient context information
+- Sensitive information (passwords, ID numbers, etc.) must not be logged
+- Use placeholders `{}` instead of string concatenation, e.g., `log.info("User {} logged in", username)`
+- Check if DEBUG level logging is enabled before use, e.g., `if (log.isDebugEnabled()) { ... }`
 
-- 遵循 AAA (Arrange-Act-Assert) 模式編寫單元測試
-- 每個試方法僅測試一個行為或功能點
-- 測試名稱應描述被測試的行為和預期結果
-- 使用 Mockito, JUnit 5 和 AssertJ 等測試工具
-- 避免在單元測試中使用真實的外部依賴（如資料庫、檔案系統）
-- 為邊界條件和錯誤情境編寫測試案例
+## 🧪 Testing Practices - General Principles
 
-## 📄 API 文件
+- Follow AAA (Arrange-Act-Assert) pattern for writing unit tests
+- Each test method should test only one behavior or functionality
+- Test names should describe the behavior being tested and expected results
+- Use Mockito, JUnit 5, and AssertJ testing tools
+- Avoid using real external dependencies (such as databases, file systems) in unit tests
+- Write test cases for boundary conditions and error scenarios
+- Regularly refactor and clean up unused Java classes/methods
+- Add brief `README.md` in major packages to explain their purpose (only when necessary)
+- All code must pass Maven compilation and Checkstyle checks before commit (setup pre-commit hooks)
+- Copilot/AI should always generate code conforming to Java coding standards and Spring Boot best practices
 
-- 產生 Swagger / OpenAPI：應採用 `springdoc-openapi-starter-webmvc-ui:2.8.9`（與 Spring Boot 3.5.4 相容）。
+## 📄 API Documentation
+
+- Generate Swagger / OpenAPI: Use `springdoc-openapi-starter-webmvc-ui:2.8.9` (compatible with Spring Boot 3.5.4).
+
+---
+
+## 📖 README & AI Prompt Rules (Backend)
+
+### ReadMe Markdown
+
+For every major folder (such as core/, domains/, features/, shared/), you must include a detailed README.md file.
+
+- This README should be written in simple, beginner-friendly language.
+- It must clearly explain:
+  - The overall purpose of the folder (why it exists and its role in the application)
+  - What kinds of files/components/resources are inside
+  - Any important coding or usage conventions that apply to this folder
+  - How someone new to the project should use or extend this folder (with practical examples if possible)
+- The goal: Anyone, even without prior experience on this project, should be able to read this file and immediately understand what this part of the codebase is for, and how to work with it.
+- Prefer clear, step-by-step explanations, diagrams, or file tree samples where helpful.
+- Every folder (core, features, shared) must have a beginner-friendly README.md, including:
+
+* Overview of purpose and contents
+* Key usage conventions
+* A minimum working code example
+
+### 1. `llms.txt` (AI / Copilot / LLM Context)
+
+#### Sample
+
+```txt
+llms.txt
+Spring Boot Docs: https://docs.spring.io/spring-boot/reference/
+Baeldung Guides: https://www.baeldung.com/spring-boot
+Backend coding conventions: /docs/backend-coding-style.md
+Domain module README: /domain/README.md
+```
+
+#### Purpose line for AI parsers
+
+llms.txt MUST provide every LLM the latest references and team conventions. # do not remove
+
+### 2. README.md Mandatory Rules
+
+Required in project root **and** every main backend module folder.
+For single‑module projects, place a README in the parent package folder under `src/main/java`.
+**Typical folders** (may vary):  
+`api/` REST controllers  `application/` business services  `domain/` entities/aggregates  
+`infrastructure/` repositories/integrations  `common/` shared utilities.  
+For single-module projects, place the README beside `src/main/java/...`.
+
+**Required sections (in order)**
+
+1. **Overview** – purpose in the whole system
+2. **Folder Contents** – list typical files/components
+3. **Key Conventions** – naming, packaging, deps
+4. **Quick Start / Usage** – how to add or call code
+5. **Minimum Working Example (MWE)**
+6. (Optional) diagrams / file tree
+
+### 3. Auto-Sync Rules (Copilot)
+
+1. **Detect** – on every new/edited `*.java` file, locate impacted module folder.
+2. **Update** – sync README instantly (fields, DTOs, services, endpoints).
+3. **Validate** – CI rejects PR if README out of date (`readme-sync` Checkstyle rule).
+4. **Order** – README must be updated **before** creating/refreshing `CHANGELOG_LATEST.md`.
+
+### 4. Allowed File Types
+
+| `*.java` | Source code (Entity, Controller, Service, Repository, DTO, Config) |
+| `README.md` | Documentation |
+**All other file types are forbidden**.
+
+**Explicitly prohibited:** XML, YAML, Properties, SQL, HTML, CSS, JS, Docker / Compose files, any non-Java sources.
+
+(Deployment, Upgrade Checklist, Commit Gate sections stay unchanged)
