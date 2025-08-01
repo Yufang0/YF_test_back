@@ -21,14 +21,69 @@ applyTo: "**/*.{java,kt}"
 - Expose OpenAPI on actuator port: `springdoc.show-actuator=true` if management port differs.
 
 ## 🏗️ Project Structure
+### 核心業務層 (Core Business Layers)
 ```
-com.example.erp
- ├─ domain      // JPA entities (Jakarta annotations)
- ├─ repository  // Spring Data JPA interfaces
- ├─ service     // @Service business logic (constructor‑based DI)
- ├─ web         // @RestController + DTO objects
- └─ config      // SecurityConfig, OpenApiConfig, etc.
+com.systex.course/
+├── entity/          # JPA 實體類別 (XxxEntity)
+├── dto/            # 數據傳輸物件 (XxxDto)
+├── vo/             # 視圖物件 (XxxVo)
+├── repo/           # 資料存取層 (XxxRepository)
+├── service/        # 業務邏輯層 (XxxService)
+└── controller/     # 控制器層 (XxxController)
 ```
+
+### 基礎設施層 (Infrastructure Layers)
+```
+com.systex.course/
+├── config/         # 配置類別 (XxxConfig)
+├── exception/      # 異常處理 (XxxException)
+├── constant/       # 常數與枚舉 (XxxEnum/XxxType)
+├── util/          # 工具類別 (XxxUtil/XxxHelper)
+└── system/        # 系統級元件
+    ├── filter/    # 過濾器 (XxxFilter)
+    ├── interceptor/ # 攔截器 (XxxInterceptor)
+    ├── aspect/    # 切面 (XxxAspect)
+    └── handler/   # 處理器 (XxxHandler)
+```
+
+### 命名規範詳細說明
+- **Entity**: 實體類別命名為 `XxxEntity`，對應資料表
+- **DTO**: 資料傳輸物件命名為 `XxxDto`，用於 API 請求/回應
+- **VO**: 視圖物件命名為 `XxxVo`，用於前端展示
+- **Repository**: 資料存取介面命名為 `XxxRepository`
+- **Service**: 業務邏輯類別命名為 `XxxService`
+- **Controller**: 控制器類別命名為 `XxxController`
+
+
+### 統一回應格式
+所有 API 回應應遵循標準格式：
+```json
+{
+  "code": 200,
+  "message": "操作成功",
+  "data": { ... },         // 實際資料
+  "timestamp": "2025-01-15T10:00:00Z",
+  "path": "/api/v1/users"
+}
+```
+
+### 分頁回應格式
+```json
+{
+  "code": 200,
+  "message": "查詢成功",
+  "data": {
+    "content": [...],      // 當前頁資料
+    "page": 0,            // 當前頁碼 (0-based)
+    "size": 20,           // 每頁大小
+    "totalElements": 100,  // 總記錄數
+    "totalPages": 5,      // 總頁數
+    "hasNext": true,      // 是否有下一頁
+    "hasPrevious": false  // 是否有上一頁
+  }
+}
+```
+
 
 ## ✍️ Coding Conventions
 - Use **constructor injection** only; no `@Autowired` on fields.
