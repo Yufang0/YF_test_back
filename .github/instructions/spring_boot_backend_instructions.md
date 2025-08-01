@@ -101,6 +101,9 @@ com.systex.course/
 - Health/metrics via Spring Boot Actuator (`/actuator/health`, `/actuator/metrics`).
 - Package as OCI image with Buildpacks (`paketobuildpacks/builder-jammy-base`).
 - Add Prometheus & OpenTelemetry exporters only when needed; keep disabled by default.
+- Maven Plugin：mvn spring-boot:build-image 產生 OCI 映像，預設使用 Paketo Buildpacks。
+- Actuator：開啟 /actuator/health、/actuator/metrics 供監控。
+- CI/CD：在 Maven workflow 中加入 --batch-mode -Pnative（如需 GraalVM Native Image 編譯）。
 
 ## ⚠️ Upgrade / Compatibility Checklist
 1. Remove all `javax.*` imports → replace with `jakarta.*`.
