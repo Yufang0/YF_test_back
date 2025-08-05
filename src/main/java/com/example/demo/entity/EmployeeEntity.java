@@ -70,10 +70,22 @@ public class EmployeeEntity implements Serializable {
     private Integer deptId;
 
     /**
+     * 職位名稱
+     */
+    @Column(name = "job_title", length = 100)
+    private String jobTitle;
+
+    /**
      * 入職日期
      */
     @Column(name = "hire_date")
     private LocalDate hireDate;
+
+    /**
+     * 離職日期
+     */
+    @Column(name = "resign_date")
+    private LocalDate resignDate;
 
     /**
      * 員工狀態，1:啟用 0:停用

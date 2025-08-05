@@ -234,6 +234,25 @@ public class EmployeeController {
         }
 
         /**
+         * 根據職位模糊搜尋員工
+         * 
+         * @param jobTitle 職位名稱
+         * @return 員工列表
+         */
+        @GetMapping("/search/job-title")
+        @Operation(summary = "根據職位搜尋員工", description = "根據職位名稱模糊搜尋員工")
+        public ResponseEntity<ApiResponse<List<EmployeeVo>>> searchEmployeesByJobTitle(
+                        @Parameter(description = "職位名稱（支援部分匹配）", required = true) @RequestParam String jobTitle) {
+
+                log.debug("Searching employees by job title: {}", jobTitle);
+
+                List<EmployeeVo> employees = employeeService.searchEmployeesByJobTitle(jobTitle);
+                ApiResponse<List<EmployeeVo>> response = ApiResponse.success(employees);
+
+                return ResponseEntity.ok(response);
+        }
+
+        /**
          * 根據入職日期範圍查詢員工
          * 
          * @param startDate 開始日期

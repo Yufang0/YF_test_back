@@ -56,11 +56,24 @@ public class EmployeeVo {
     private Integer deptId;
 
     /**
+     * 職位名稱
+     */
+    @JsonProperty("job_title")
+    private String jobTitle;
+
+    /**
      * 入職日期
      */
     @JsonProperty("hire_date")
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate hireDate;
+
+    /**
+     * 離職日期
+     */
+    @JsonProperty("resign_date")
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private LocalDate resignDate;
 
     /**
      * 員工狀態

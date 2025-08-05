@@ -175,6 +175,21 @@ public class EmployeeService {
     }
 
     /**
+     * 根據職位名稱模糊搜尋員工
+     * 
+     * @param jobTitle 職位名稱（支援部分匹配）
+     * @return 員工列表
+     */
+    public List<EmployeeVo> searchEmployeesByJobTitle(String jobTitle) {
+        log.debug("Searching employees by job title: {}", jobTitle);
+
+        List<EmployeeEntity> entities = employeeRepository.findByJobTitleContaining(jobTitle);
+        return entities.stream()
+                .map(this::convertEntityToVo)
+                .collect(Collectors.toList());
+    }
+
+    /**
      * 根據入職日期範圍查詢員工
      * 
      * @param startDate 開始日期
@@ -293,7 +308,9 @@ public class EmployeeService {
         entity.setEmpName(createDto.getEmpName());
         entity.setEmpEmail(createDto.getEmpEmail());
         entity.setDeptId(createDto.getDeptId());
+        entity.setJobTitle(createDto.getJobTitle());
         entity.setHireDate(createDto.getHireDate());
+        entity.setResignDate(createDto.getResignDate());
         entity.setIsActive(createDto.getIsActive());
         entity.setCreateUser(createDto.getCreateUser());
         return entity;
@@ -318,8 +335,14 @@ public class EmployeeService {
         if (updateDto.getDeptId() != null) {
             entity.setDeptId(updateDto.getDeptId());
         }
+        if (updateDto.getJobTitle() != null) {
+            entity.setJobTitle(updateDto.getJobTitle());
+        }
         if (updateDto.getHireDate() != null) {
             entity.setHireDate(updateDto.getHireDate());
+        }
+        if (updateDto.getResignDate() != null) {
+            entity.setResignDate(updateDto.getResignDate());
         }
         if (updateDto.getIsActive() != null) {
             entity.setIsActive(updateDto.getIsActive());
@@ -339,7 +362,9 @@ public class EmployeeService {
         vo.setEmpName(entity.getEmpName());
         vo.setEmpEmail(entity.getEmpEmail());
         vo.setDeptId(entity.getDeptId());
+        vo.setJobTitle(entity.getJobTitle());
         vo.setHireDate(entity.getHireDate());
+        vo.setResignDate(entity.getResignDate());
         vo.setIsActive(entity.getIsActive());
         vo.setStatusText(entity.getIsActive() != null && entity.getIsActive() ? "啟用" : "停用");
         vo.setCreateTime(entity.getCreateTime());

@@ -64,12 +64,26 @@ public class EmployeeUpdateDto {
     private Integer deptId;
 
     /**
+     * 職位名稱
+     */
+    @JsonProperty("job_title")
+    @Size(max = 100, message = "職位名稱長度不能超過100個字元")
+    private String jobTitle;
+
+    /**
      * 入職日期
      */
     @JsonProperty("hire_date")
     @JsonFormat(pattern = "yyyy-MM-dd")
     @PastOrPresent(message = "入職日期不能是未來日期")
     private LocalDate hireDate;
+
+    /**
+     * 離職日期
+     */
+    @JsonProperty("resign_date")
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private LocalDate resignDate;
 
     /**
      * 員工狀態

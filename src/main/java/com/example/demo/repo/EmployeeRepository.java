@@ -43,6 +43,14 @@ public interface EmployeeRepository extends JpaRepository<EmployeeEntity, Intege
     List<EmployeeEntity> findByEmpNameContaining(String empName);
 
     /**
+     * 根據職位名稱查詢員工列表（模糊搜尋）
+     * 
+     * @param jobTitle 職位名稱（支援部分匹配）
+     * @return 符合條件的員工列表
+     */
+    List<EmployeeEntity> findByJobTitleContaining(String jobTitle);
+
+    /**
      * 根據部門 ID 查詢該部門所有員工
      * 
      * @param deptId 部門 ID
