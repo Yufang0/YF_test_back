@@ -50,6 +50,12 @@ public class EmployeeVo {
     private String empEmail;
 
     /**
+     * 員工連絡電話
+     */
+    @JsonProperty("emp_phone")
+    private String empPhone;
+
+    /**
      * 部門 ID
      */
     @JsonProperty("dept_id")
@@ -99,6 +105,19 @@ public class EmployeeVo {
      */
     @JsonProperty("create_user")
     private String createUser;
+
+    /**
+     * 更新時間
+     */
+    @JsonProperty("update_time")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime updateTime;
+
+    /**
+     * 更新者
+     */
+    @JsonProperty("update_user")
+    private String updateUser;
 
     /**
      * 工作天數（從入職日期到當前日期）

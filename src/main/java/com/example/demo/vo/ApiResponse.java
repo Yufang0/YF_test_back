@@ -64,7 +64,7 @@ public class ApiResponse<T> {
      * @return 成功回應物件
      */
     public static <T> ApiResponse<T> success(T data) {
-        return new ApiResponse<>(200, "操作成功", data, LocalDateTime.now(), null);
+        return new ApiResponse<>(1000, "操作成功", data, LocalDateTime.now(), null);
     }
 
     /**
@@ -76,7 +76,7 @@ public class ApiResponse<T> {
      * @return 成功回應物件
      */
     public static <T> ApiResponse<T> success(T data, String message) {
-        return new ApiResponse<>(200, message, data, LocalDateTime.now(), null);
+        return new ApiResponse<>(1000, message, data, LocalDateTime.now(), null);
     }
 
     /**

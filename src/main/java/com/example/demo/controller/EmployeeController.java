@@ -42,7 +42,8 @@ import java.util.List;
  * @since 2025-01-15
  */
 @RestController
-@RequestMapping("/api/v1/employees")
+@RequestMapping("/api/employees")
+@CrossOrigin(origins = { "http://localhost:4200", "http://localhost:4201" }, maxAge = 3600)
 @RequiredArgsConstructor
 @Slf4j
 @Validated

@@ -64,6 +64,12 @@ public class EmployeeEntity implements Serializable {
     private String empEmail;
 
     /**
+     * 員工連絡電話
+     */
+    @Column(name = "emp_phone", length = 20)
+    private String empPhone;
+
+    /**
      * 部門 ID，外鍵參照 tb_department(id)
      */
     @Column(name = "dept_id")

@@ -332,6 +332,9 @@ public class EmployeeService {
         if (updateDto.getEmpEmail() != null) {
             entity.setEmpEmail(updateDto.getEmpEmail());
         }
+        if (updateDto.getEmpPhone() != null) { // 添加缺少的 emp_phone 更新
+            entity.setEmpPhone(updateDto.getEmpPhone());
+        }
         if (updateDto.getDeptId() != null) {
             entity.setDeptId(updateDto.getDeptId());
         }
@@ -347,6 +350,10 @@ public class EmployeeService {
         if (updateDto.getIsActive() != null) {
             entity.setIsActive(updateDto.getIsActive());
         }
+        if (updateDto.getUpdateUser() != null) { // 添加缺少的 update_user 更新
+            entity.setUpdateUser(updateDto.getUpdateUser());
+        }
+        // 更新時間會由 @UpdateTimestamp 自動處理
     }
 
     /**
@@ -361,6 +368,7 @@ public class EmployeeService {
         vo.setEmpCode(entity.getEmpCode());
         vo.setEmpName(entity.getEmpName());
         vo.setEmpEmail(entity.getEmpEmail());
+        vo.setEmpPhone(entity.getEmpPhone()); // 添加缺少的 emp_phone 映射
         vo.setDeptId(entity.getDeptId());
         vo.setJobTitle(entity.getJobTitle());
         vo.setHireDate(entity.getHireDate());
@@ -369,6 +377,8 @@ public class EmployeeService {
         vo.setStatusText(entity.getIsActive() != null && entity.getIsActive() ? "啟用" : "停用");
         vo.setCreateTime(entity.getCreateTime());
         vo.setCreateUser(entity.getCreateUser());
+        vo.setUpdateTime(entity.getUpdateTime()); // 也添加缺少的 update_time 映射
+        vo.setUpdateUser(entity.getUpdateUser()); // 也添加缺少的 update_user 映射
 
         // 計算工作天數
         if (entity.getHireDate() != null) {

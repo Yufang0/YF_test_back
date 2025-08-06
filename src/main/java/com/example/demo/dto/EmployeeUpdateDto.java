@@ -53,8 +53,16 @@ public class EmployeeUpdateDto {
      */
     @JsonProperty("emp_email")
     @Email(message = "請輸入有效的電子郵箱格式")
-    @Size(max = 50, message = "電子郵箱長度不能超過50個字元")
+    @Size(max = 100, message = "電子郵箱長度不能超過100個字元")
     private String empEmail;
+
+    /**
+     * 員工連絡電話
+     */
+    @JsonProperty("emp_phone")
+    @Size(max = 20, message = "連絡電話長度不能超過20個字元")
+    @Pattern(regexp = "^[0-9+\\-\\s()]*$", message = "請輸入有效的電話號碼格式")
+    private String empPhone;
 
     /**
      * 部門 ID
@@ -90,4 +98,12 @@ public class EmployeeUpdateDto {
      */
     @JsonProperty("is_active")
     private Boolean isActive;
+
+    /**
+     * 更新者
+     */
+    @JsonProperty("update_user")
+    @NotBlank(message = "更新者不能為空")
+    @Size(max = 20, message = "更新者名稱長度不能超過20個字元")
+    private String updateUser;
 }
