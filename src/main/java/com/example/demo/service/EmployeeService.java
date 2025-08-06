@@ -392,14 +392,14 @@ public class EmployeeService {
      * 根據綜合條件搜尋員工
      * 使用動態查詢，支援空值過濾
      * 
-     * @param empCode 員工編號（可選，部分匹配）
-     * @param empName 員工姓名（可選，部分匹配）
-     * @param deptId 部門 ID（可選，精確匹配）
+     * @param empCode  員工編號（可選，部分匹配）
+     * @param empName  員工姓名（可選，部分匹配）
+     * @param deptId   部門 ID（可選，精確匹配）
      * @param jobTitle 職位（可選，部分匹配）
      * @return 符合條件的員工列表
      */
     public List<EmployeeVo> searchEmployeesByCriteria(String empCode, String empName, Integer deptId, String jobTitle) {
-        log.debug("Searching employees by criteria: empCode={}, empName={}, deptId={}, jobTitle={}", 
+        log.debug("Searching employees by criteria: empCode={}, empName={}, deptId={}, jobTitle={}",
                 empCode, empName, deptId, jobTitle);
 
         List<EmployeeEntity> entities = employeeRepository.findByCriteria(empCode, empName, deptId, jobTitle);

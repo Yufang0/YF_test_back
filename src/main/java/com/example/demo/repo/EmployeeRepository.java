@@ -108,22 +108,21 @@ public interface EmployeeRepository extends JpaRepository<EmployeeEntity, Intege
      * 根據綜合條件動態查詢員工
      * 支援空值過濾，只有非空條件才會加入查詢
      * 
-     * @param empCode 員工編號（可選，部分匹配）
-     * @param empName 員工姓名（可選，部分匹配）
-     * @param deptId 部門 ID（可選，精確匹配）
+     * @param empCode  員工編號（可選，部分匹配）
+     * @param empName  員工姓名（可選，部分匹配）
+     * @param deptId   部門 ID（可選，精確匹配）
      * @param jobTitle 職位（可選，部分匹配）
      * @return 符合條件的員工列表
      */
     @Query("SELECT e FROM EmployeeEntity e WHERE " +
-           "(:empCode IS NULL OR e.empCode LIKE %:empCode%) AND " +
-           "(:empName IS NULL OR e.empName LIKE %:empName%) AND " +
-           "(:deptId IS NULL OR e.deptId = :deptId) AND " +
-           "(:jobTitle IS NULL OR e.jobTitle LIKE %:jobTitle%) " +
-           "ORDER BY e.empCode ASC")
+            "(:empCode IS NULL OR e.empCode LIKE %:empCode%) AND " +
+            "(:empName IS NULL OR e.empName LIKE %:empName%) AND " +
+            "(:deptId IS NULL OR e.deptId = :deptId) AND " +
+            "(:jobTitle IS NULL OR e.jobTitle LIKE %:jobTitle%) " +
+            "ORDER BY e.empCode ASC")
     List<EmployeeEntity> findByCriteria(
-        @Param("empCode") String empCode,
-        @Param("empName") String empName,
-        @Param("deptId") Integer deptId,
-        @Param("jobTitle") String jobTitle
-    );
+            @Param("empCode") String empCode,
+            @Param("empName") String empName,
+            @Param("deptId") Integer deptId,
+            @Param("jobTitle") String jobTitle);
 }
