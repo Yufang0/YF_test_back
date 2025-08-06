@@ -366,4 +366,30 @@ public class EmployeeController {
 
                 return ResponseEntity.ok(response);
         }
+
+        /**
+         * 綜合條件搜尋員工
+         * 
+         * @param empCode 員工編號（可選）
+         * @param empName 員工姓名（可選）
+         * @param deptId 部門 ID（可選）
+         * @param jobTitle 職位（可選）
+         * @return 符合條件的員工列表
+         */
+        @GetMapping("/search/criteria")
+        @Operation(summary = "綜合條件搜尋員工", description = "根據多個條件組合搜尋員工，支援空值過濾")
+        public ResponseEntity<ApiResponse<List<EmployeeVo>>> searchEmployeesByCriteria(
+                        @Parameter(description = "員工編號（部分匹配）", required = false) @RequestParam(required = false) String empCode,
+                        @Parameter(description = "員工姓名（部分匹配）", required = false) @RequestParam(required = false) String empName,
+                        @Parameter(description = "部門 ID", required = false) @RequestParam(required = false) Integer deptId,
+                        @Parameter(description = "職位（部分匹配）", required = false) @RequestParam(required = false) String jobTitle) {
+
+                log.debug("Searching employees by criteria: empCode={}, empName={}, deptId={}, jobTitle={}", 
+                        empCode, empName, deptId, jobTitle);
+
+                List<EmployeeVo> employees = employeeService.searchEmployeesByCriteria(empCode, empName, deptId, jobTitle);
+                ApiResponse<List<EmployeeVo>> response = ApiResponse.success(employees);
+
+                return ResponseEntity.ok(response);
+        }
 }
