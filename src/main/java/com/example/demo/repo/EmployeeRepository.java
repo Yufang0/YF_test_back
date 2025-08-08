@@ -17,6 +17,7 @@ import java.util.Optional;
  * <p>
  * 提供員工資料的資料存取層操作，包含基本的 CRUD 操作以及自定義查詢方法。
  * 繼承 JpaRepository 以獲得標準的資料庫操作功能。
+ * 繼承 EmployeeRepositoryCustom 以獲得自訂查詢功能。
  * </p>
  * 
  * @author System Generated
@@ -24,105 +25,109 @@ import java.util.Optional;
  * @since 2025-01-15
  */
 @Repository
-public interface EmployeeRepository extends JpaRepository<EmployeeEntity, Integer> {
+public interface EmployeeRepository extends JpaRepository<EmployeeEntity, Integer>, EmployeeRepositoryCustom {
 
-    /**
-     * 根據員工編號查詢員工資訊
-     * 
-     * @param empCode 員工編號
-     * @return 員工實體物件（Optional 包裝）
-     */
-    Optional<EmployeeEntity> findByEmpCode(String empCode);
+        /**
+         * 根據員工編號查詢員工實體
+         * <p>
+         * 此方法回傳 EmployeeEntity 實體物件，用於需要完整實體功能的場景。
+         * 如需 DTO 格式，請使用繼承自 EmployeeRepositoryCustom 的 findByEmpCode 方法。
+         * </p>
+         * 
+         * @param empCode 員工編號
+         * @return 員工實體物件（Optional 包裝）
+         */
+        Optional<EmployeeEntity> findEntityByEmpCode(String empCode);
 
-    /**
-     * 根據員工姓名查詢員工列表（模糊搜尋）
-     * 
-     * @param empName 員工姓名（支援部分匹配）
-     * @return 符合條件的員工列表
-     */
-    List<EmployeeEntity> findByEmpNameContaining(String empName);
+        /**
+         * 根據員工姓名查詢員工列表（模糊搜尋）
+         * 
+         * @param empName 員工姓名（支援部分匹配）
+         * @return 符合條件的員工列表
+         */
+        List<EmployeeEntity> findByEmpNameContaining(String empName);
 
-    /**
-     * 根據職位名稱查詢員工列表（模糊搜尋）
-     * 
-     * @param jobTitle 職位名稱（支援部分匹配）
-     * @return 符合條件的員工列表
-     */
-    List<EmployeeEntity> findByJobTitleContaining(String jobTitle);
+        /**
+         * 根據職位名稱查詢員工列表（模糊搜尋）
+         * 
+         * @param jobTitle 職位名稱（支援部分匹配）
+         * @return 符合條件的員工列表
+         */
+        List<EmployeeEntity> findByJobTitleContaining(String jobTitle);
 
-    /**
-     * 根據部門 ID 查詢該部門所有員工
-     * 
-     * @param deptId 部門 ID
-     * @return 該部門的員工列表
-     */
-    List<EmployeeEntity> findByDeptId(Integer deptId);
+        /**
+         * 根據部門 ID 查詢該部門所有員工
+         * 
+         * @param deptId 部門 ID
+         * @return 該部門的員工列表
+         */
+        List<EmployeeEntity> findByDeptId(Integer deptId);
 
-    /**
-     * 根據員工狀態查詢員工列表（分頁）
-     * 
-     * @param isActive 員工狀態（true:啟用, false:停用）
-     * @param pageable 分頁參數
-     * @return 分頁員工資料
-     */
-    Page<EmployeeEntity> findByIsActive(Boolean isActive, Pageable pageable);
+        /**
+         * 根據員工狀態查詢員工列表（分頁）
+         * 
+         * @param isActive 員工狀態（true:啟用, false:停用）
+         * @param pageable 分頁參數
+         * @return 分頁員工資料
+         */
+        Page<EmployeeEntity> findByIsActive(Boolean isActive, Pageable pageable);
 
-    /**
-     * 根據入職日期範圍查詢員工
-     * 
-     * @param startDate 開始日期
-     * @param endDate   結束日期
-     * @return 符合日期範圍的員工列表
-     */
-    List<EmployeeEntity> findByHireDateBetween(LocalDate startDate, LocalDate endDate);
+        /**
+         * 根據入職日期範圍查詢員工
+         * 
+         * @param startDate 開始日期
+         * @param endDate   結束日期
+         * @return 符合日期範圍的員工列表
+         */
+        List<EmployeeEntity> findByHireDateBetween(LocalDate startDate, LocalDate endDate);
 
-    /**
-     * 查詢指定部門的啟用員工數量
-     * 
-     * @param deptId   部門 ID
-     * @param isActive 員工狀態
-     * @return 符合條件的員工數量
-     */
-    long countByDeptIdAndIsActive(Integer deptId, Boolean isActive);
+        /**
+         * 查詢指定部門的啟用員工數量
+         * 
+         * @param deptId   部門 ID
+         * @param isActive 員工狀態
+         * @return 符合條件的員工數量
+         */
+        long countByDeptIdAndIsActive(Integer deptId, Boolean isActive);
 
-    /**
-     * 根據員工編號檢查是否存在
-     * 
-     * @param empCode 員工編號
-     * @return true 如果存在，false 如果不存在
-     */
-    boolean existsByEmpCode(String empCode);
+        /**
+         * 根據員工編號檢查是否存在
+         * 
+         * @param empCode 員工編號
+         * @return true 如果存在，false 如果不存在
+         */
+        boolean existsByEmpCode(String empCode);
 
-    /**
-     * 根據電子郵箱查詢員工（排除指定 ID）
-     * 用於更新時檢查郵箱唯一性
-     * 
-     * @param empEmail 員工電子郵箱
-     * @param id       要排除的員工 ID
-     * @return 員工實體物件（Optional 包裝）
-     */
-    @Query("SELECT e FROM EmployeeEntity e WHERE e.empEmail = :empEmail AND e.id != :id")
-    Optional<EmployeeEntity> findByEmpEmailAndIdNot(@Param("empEmail") String empEmail, @Param("id") Integer id);
+        /**
+         * 根據電子郵箱查詢員工（排除指定 ID）
+         * 用於更新時檢查郵箱唯一性
+         * 
+         * @param empEmail 員工電子郵箱
+         * @param id       要排除的員工 ID
+         * @return 員工實體物件（Optional 包裝）
+         */
+        @Query("SELECT e FROM EmployeeEntity e WHERE e.empEmail = :empEmail AND e.id != :id")
+        Optional<EmployeeEntity> findByEmpEmailAndIdNot(@Param("empEmail") String empEmail, @Param("id") Integer id);
 
-    /**
-     * 根據綜合條件動態查詢員工
-     * 支援空值過濾，只有非空條件才會加入查詢
-     * 
-     * @param empCode  員工編號（可選，部分匹配）
-     * @param empName  員工姓名（可選，部分匹配）
-     * @param deptId   部門 ID（可選，精確匹配）
-     * @param jobTitle 職位（可選，部分匹配）
-     * @return 符合條件的員工列表
-     */
-    @Query("SELECT e FROM EmployeeEntity e WHERE " +
-            "(:empCode IS NULL OR e.empCode LIKE %:empCode%) AND " +
-            "(:empName IS NULL OR e.empName LIKE %:empName%) AND " +
-            "(:deptId IS NULL OR e.deptId = :deptId) AND " +
-            "(:jobTitle IS NULL OR e.jobTitle LIKE %:jobTitle%) " +
-            "ORDER BY e.empCode ASC")
-    List<EmployeeEntity> findByCriteria(
-            @Param("empCode") String empCode,
-            @Param("empName") String empName,
-            @Param("deptId") Integer deptId,
-            @Param("jobTitle") String jobTitle);
+        /**
+         * 根據綜合條件動態查詢員工
+         * 支援空值過濾，只有非空條件才會加入查詢
+         * 
+         * @param empCode  員工編號（可選，部分匹配）
+         * @param empName  員工姓名（可選，部分匹配）
+         * @param deptId   部門 ID（可選，精確匹配）
+         * @param jobTitle 職位（可選，部分匹配）
+         * @return 符合條件的員工列表
+         */
+        @Query("SELECT e FROM EmployeeEntity e WHERE " +
+                        "(:empCode IS NULL OR e.empCode LIKE %:empCode%) AND " +
+                        "(:empName IS NULL OR e.empName LIKE %:empName%) AND " +
+                        "(:deptId IS NULL OR e.deptId = :deptId) AND " +
+                        "(:jobTitle IS NULL OR e.jobTitle LIKE %:jobTitle%) " +
+                        "ORDER BY e.empCode ASC")
+        List<EmployeeEntity> findByCriteria(
+                        @Param("empCode") String empCode,
+                        @Param("empName") String empName,
+                        @Param("deptId") Integer deptId,
+                        @Param("jobTitle") String jobTitle);
 }

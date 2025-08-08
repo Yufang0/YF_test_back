@@ -101,7 +101,7 @@ public class EmployeeService {
     public EmployeeVo getEmployeeByCode(String empCode) {
         log.debug("Fetching employee by code: {}", empCode);
 
-        EmployeeEntity entity = employeeRepository.findByEmpCode(empCode)
+        EmployeeEntity entity = employeeRepository.findEntityByEmpCode(empCode)
                 .orElseThrow(() -> new EmployeeNotFoundException("員工編號不存在: " + empCode));
 
         return convertEntityToVo(entity);
