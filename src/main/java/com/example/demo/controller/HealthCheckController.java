@@ -1,6 +1,5 @@
 package com.example.demo.controller;
 
-import com.example.demo.util.DatabaseDiagnosticUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,9 +28,6 @@ public class HealthCheckController {
 
     @Autowired
     private DataSource dataSource;
-
-    @Autowired
-    private DatabaseDiagnosticUtil diagnosticUtil;
 
     /**
      * 檢查資料庫連接狀態
@@ -78,28 +74,5 @@ public class HealthCheckController {
         systemHealth.put("message", "System is running normally");
 
         return ResponseEntity.ok(systemHealth);
-    }
-
-    /**
-     * 執行完整的資料庫診斷
-     * 
-     * @return 診斷執行狀態
-     */
-    @GetMapping("/diagnostic")
-    public ResponseEntity<Map<String, Object>> runDatabaseDiagnostic() {
-        Map<String, Object> response = new HashMap<>();
-
-        try {
-            diagnosticUtil.runFullDiagnostic();
-            response.put("status", "SUCCESS");
-            response.put("message", "資料庫診斷執行完成，請查看日誌以獲取詳細資訊");
-            response.put("timestamp", java.time.LocalDateTime.now());
-            return ResponseEntity.ok(response);
-        } catch (Exception e) {
-            response.put("status", "ERROR");
-            response.put("message", "診斷執行失敗: " + e.getMessage());
-            response.put("timestamp", java.time.LocalDateTime.now());
-            return ResponseEntity.status(500).body(response);
-        }
     }
 }

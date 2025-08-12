@@ -114,10 +114,14 @@ public class EmployeeService {
      * @return 員工分頁資料
      */
     public Page<EmployeeVo> getAllEmployees(Pageable pageable) {
-        log.debug("Fetching employees with pagination: page={}, size={}",
-                pageable.getPageNumber(), pageable.getPageSize());
+        log.info("Fetching employees with pagination: page={}, size={}, sort={}",
+                pageable.getPageNumber(), pageable.getPageSize(), pageable.getSort());
 
         Page<EmployeeEntity> entityPage = employeeRepository.findAll(pageable);
+        log.info("Found {} employees in page {}/{}, total elements: {}",
+                entityPage.getNumberOfElements(), entityPage.getNumber() + 1,
+                entityPage.getTotalPages(), entityPage.getTotalElements());
+
         List<EmployeeVo> voList = entityPage.getContent().stream()
                 .map(this::convertEntityToVo)
                 .collect(Collectors.toList());
@@ -307,6 +311,7 @@ public class EmployeeService {
         entity.setEmpCode(createDto.getEmpCode());
         entity.setEmpName(createDto.getEmpName());
         entity.setEmpEmail(createDto.getEmpEmail());
+        entity.setEmpPhone(createDto.getEmpPhone()); // 修正：新增電話號碼欄位映射
         entity.setDeptId(createDto.getDeptId());
         entity.setJobTitle(createDto.getJobTitle());
         entity.setHireDate(createDto.getHireDate());
@@ -364,7 +369,7 @@ public class EmployeeService {
      */
     private EmployeeVo convertEntityToVo(EmployeeEntity entity) {
         EmployeeVo vo = new EmployeeVo();
-        vo.setId(entity.getEmpId());
+        vo.setEmpId(entity.getEmpId());
         vo.setEmpCode(entity.getEmpCode());
         vo.setEmpName(entity.getEmpName());
         vo.setEmpEmail(entity.getEmpEmail());
@@ -406,5 +411,31 @@ public class EmployeeService {
         return entities.stream()
                 .map(this::convertEntityToVo)
                 .collect(Collectors.toList());
+    }
+
+    /**
+     * 根據綜合條件搜尋員工（分頁版本）
+     * 使用動態查詢，支援空值過濾
+     * 
+     * @param empCode  員工編號（可選，部分匹配）
+     * @param empName  員工姓名（可選，部分匹配）
+     * @param deptId   部門 ID（可選，精確匹配）
+     * @param jobTitle 職位（可選，部分匹配）
+     * @param pageable 分頁參數
+     * @return 符合條件的員工分頁資料
+     */
+    public Page<EmployeeVo> searchEmployeesByCriteriaWithPagination(String empCode, String empName, Integer deptId,
+            String jobTitle, Pageable pageable) {
+        log.debug(
+                "Searching employees by criteria with pagination: empCode={}, empName={}, deptId={}, jobTitle={}, page={}, size={}",
+                empCode, empName, deptId, jobTitle, pageable.getPageNumber(), pageable.getPageSize());
+
+        Page<EmployeeEntity> entityPage = employeeRepository.findByCriteriaWithPagination(empCode, empName, deptId,
+                jobTitle, pageable);
+        List<EmployeeVo> voList = entityPage.getContent().stream()
+                .map(this::convertEntityToVo)
+                .collect(Collectors.toList());
+
+        return new PageImpl<>(voList, pageable, entityPage.getTotalElements());
     }
 }

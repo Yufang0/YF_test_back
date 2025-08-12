@@ -25,7 +25,7 @@ public class EmployeeSummaryDto {
      * 員工 ID
      */
     @JsonProperty("emp_id")
-    private Integer id;
+    private Integer empId;
 
     /**
      * 員工編號

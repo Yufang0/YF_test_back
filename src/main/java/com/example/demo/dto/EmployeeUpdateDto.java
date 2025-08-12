@@ -97,6 +97,7 @@ public class EmployeeUpdateDto {
      * 員工狀態
      */
     @JsonProperty("is_active")
+    @NotNull(message = "員工狀態不能為空")
     private Boolean isActive;
 
     /**
