@@ -1,11 +1,11 @@
-//package com.example.demo.repo;
+package com.example.demo.repo;
 
-//import com.example.demo.entity.DepartmentEntity;
+import com.example.demo.entity.DepartmentEntity;
 
-//import java.util.Optional;
+import java.util.Optional;
 
-//import org.springframework.data.jpa.repository.JpaRepository;
-//import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 /*
  * Department Repository 介面
@@ -18,7 +18,7 @@
  * 主介面要 extends Custom 介面，這樣你在 Service 注入 DepartmentRepository 時，同時擁有 CRUD 與自訂方法。
  */
 
- /*
+
 @Repository
 public interface DepartmentRepository extends JpaRepository<DepartmentEntity, Integer>, DepartmentRepositoryCustom {
 
@@ -30,4 +30,3 @@ public interface DepartmentRepository extends JpaRepository<DepartmentEntity, In
     boolean existsByDeptCode(String deptCode);
 
 }
-*/

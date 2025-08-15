@@ -1,4 +1,4 @@
-/*package com.example.demo.vo;
+package com.example.demo.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,4 +14,3 @@ public class DepartmentSearchVo {
     private String deptName;
     private String deptLevel;
 }
-*/

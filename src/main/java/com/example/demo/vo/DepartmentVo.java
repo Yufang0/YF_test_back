@@ -1,5 +1,6 @@
-/*package com.example.demo.vo;
+package com.example.demo.vo;
 
+import com.example.demo.system.PageBean;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -14,7 +15,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 
-public class DepartmentVo {
+public class DepartmentVo extends PageBean {
 
     @JsonProperty("dept_id")
     private Integer deptId;
@@ -51,4 +52,3 @@ public class DepartmentVo {
     @JsonProperty("update_user")
     private String updateUser;
 }
-*/
