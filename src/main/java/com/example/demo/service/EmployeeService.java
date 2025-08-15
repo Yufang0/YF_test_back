@@ -20,7 +20,6 @@ import com.example.demo.vo.EmployeeVo;
 @Service
 public interface EmployeeService {
 
-    
     /**
      * Find all employees
      * 
@@ -55,7 +54,7 @@ public interface EmployeeService {
     /**
      * Update an existing employee
      * 
-     * @param id employee ID to update
+     * @param id       employee ID to update
      * @param employee updated employee data
      * @return updated employee entity
      */
@@ -102,7 +101,7 @@ public interface EmployeeService {
     Page<EmployeeDto> findByStatus(Boolean isActive, Pageable pageable);
 
     // Legacy method names for backward compatibility with existing controller
-    
+
     /**
      * Create a new employee (legacy method name)
      * 
@@ -172,7 +171,7 @@ public interface EmployeeService {
      * Get employees by hire date range (legacy method name)
      * 
      * @param startDate start date
-     * @param endDate end date
+     * @param endDate   end date
      * @return list of employee VOs
      */
     List<EmployeeVo> getEmployeesByHireDateRange(LocalDate startDate, LocalDate endDate);
@@ -211,9 +210,9 @@ public interface EmployeeService {
     /**
      * Search employees by criteria (legacy method name)
      * 
-     * @param empCode employee code
-     * @param empName employee name
-     * @param deptId department ID
+     * @param empCode  employee code
+     * @param empName  employee name
+     * @param deptId   department ID
      * @param jobTitle job title
      * @return list of employee VOs
      */
@@ -222,12 +221,13 @@ public interface EmployeeService {
     /**
      * Search employees by criteria with pagination (legacy method name)
      * 
-     * @param empCode employee code
-     * @param empName employee name
-     * @param deptId department ID
+     * @param empCode  employee code
+     * @param empName  employee name
+     * @param deptId   department ID
      * @param jobTitle job title
      * @param pageable pagination parameters
      * @return page of employee VOs
      */
-    Page<EmployeeVo> searchEmployeesByCriteriaWithPagination(String empCode, String empName, Integer deptId, String jobTitle, Pageable pageable);
+    Page<EmployeeVo> searchEmployeesByCriteriaWithPagination(String empCode, String empName, Integer deptId,
+            String jobTitle, Pageable pageable);
 }

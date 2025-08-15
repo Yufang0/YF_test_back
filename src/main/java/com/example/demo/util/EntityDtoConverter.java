@@ -38,8 +38,8 @@ public class EntityDtoConverter {
             BeanUtils.copyProperties(source, target);
             return target;
         } catch (Exception e) {
-            log.error("Error converting from {} to {}: {}", 
-                source.getClass().getSimpleName(), targetClass.getSimpleName(), e.getMessage());
+            log.error("Error converting from {} to {}: {}",
+                    source.getClass().getSimpleName(), targetClass.getSimpleName(), e.getMessage());
             throw new RuntimeException("Error converting between objects", e);
         }
     }
@@ -79,9 +79,9 @@ public class EntityDtoConverter {
     /**
      * Creates a builder for more complex conversions
      *
-     * @param <S>    source type
-     * @param <T>    target type
-     * @param source source object
+     * @param <S>         source type
+     * @param <T>         target type
+     * @param source      source object
      * @param targetClass target class
      * @return conversion builder
      */
@@ -101,7 +101,7 @@ public class EntityDtoConverter {
 
         private ConversionBuilder(S source, Class<T> targetClass) {
             this.source = source;
-            
+
             try {
                 this.target = targetClass.getDeclaredConstructor().newInstance();
                 if (source != null) {
